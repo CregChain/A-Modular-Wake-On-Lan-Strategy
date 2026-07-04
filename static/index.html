@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Start The Server!</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f5f5f5;
+      font-family: Arial, sans-serif;
+    }
+    button {
+      background: #e60012;
+      color: white;
+      border: none;
+      padding: 20px 40px;
+      font-size: 24px;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+    button:hover {
+      background: #c40010;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    function sendCommand() {
+      // 使用相对路径，自动适配当前域名和端口
+      const endpoint = '/start';
+
+      fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ action: 'start' })
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Request failed with status ' + response.status);
+          }
+          return response.text();
+        })
+        .then(() => {
+          alert('Start signal sent');
+        })
+        .catch((error) => {
+          console.error('Failed to send Start signal:', error);
+          alert('Failed to send Start signal: ' + error.message);
+        });
+    }
+  </script>
+  <button onclick="sendCommand()">Start The Server</button>
+</body>
+</html>
